@@ -59,7 +59,7 @@ func loadIcons() []Icon {
 			icons = append(icons, Icon{
 				Filename: filepath.Base(path),
 				Name:     strings.TrimSuffix(info.Name(), filepath.Ext(info.Name())),
-				Size:     100, // Default size
+				Size:     48, // Default size
 			})
 		}
 		return nil
