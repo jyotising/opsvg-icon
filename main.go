@@ -10,20 +10,23 @@ import (
 	"strings"
 )
 
-// Exported Handler function for Vercel
+// Handler function to serve SVG icons dynamically
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// Set the content type to serve HTML or SVGs
+	// Get the requested icon name from the URL path
+	iconName := filepath.Base(r.URL.Path)
+
+	// Set the content type for SVG
 	w.Header().Set("Content-Type", "image/svg+xml")
 
-	// Serve different SVG icons based on the URL path
-	switch r.URL.Path {
-	case "/icon1":
-		fmt.Fprintf(w, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 0l3 12h-6l3-12zm3 18v6h-6v-6h6zm9-6h-6v6h6v-6zm-12 0h-6v6h6v-6zm-9 0h6v6h-6v-6z"/></svg>`)
-	case "/icon2":
-		fmt.Fprintf(w, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M2 0v24h20v-24h-20zm16 2v20h-12v-20h12zm-3 8h-6v2h6v-2z"/></svg>`)
-	default:
-		// Default response for any other route
-		w.WriteHeader(http.StatusNotFound) // Respond with a 404 for unknown routes
+	// Build the full path to the requested icon file
+	iconPath := filepath.Join("icons", iconName)
+
+	// Serve the SVG icon if it exists
+	if _, err := os.Stat(iconPath); err == nil {
+		http.ServeFile(w, r, iconPath)
+	} else {
+		// Respond with 404 if the icon is not found
+		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprintf(w, "Icon not found!")
 	}
 }
