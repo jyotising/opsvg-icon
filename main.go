@@ -15,15 +15,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// Set content type to serve HTML, text, or SVGs
 	w.Header().Set("Content-Type", "text/html")
 
-	// Response to test that the handler is working
+	// Simple response to test the handler
 	fmt.Fprintf(w, "<h1>Hello from the Go server!</h1>")
-}
-
-func main() {
-	// Only used for local testing. Vercel doesn't need this.
-	http.HandleFunc("/", Handler)
-	fmt.Println("Listening on http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
 }
 
 type Icon struct {
