@@ -10,13 +10,22 @@ import (
 	"strings"
 )
 
-// Exported Handler function for Vercel to recognize
+// Exported Handler function for Vercel
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// Set content type to serve HTML, text, or SVGs
-	w.Header().Set("Content-Type", "text/html")
+	// Set the content type to serve HTML or SVGs
+	w.Header().Set("Content-Type", "image/svg+xml")
 
-	// Simple response to test the handler
-	fmt.Fprintf(w, "<h1>Hello from the Go server!</h1>")
+	// Serve different SVG icons based on the URL path
+	switch r.URL.Path {
+	case "/icon1":
+		fmt.Fprintf(w, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 0l3 12h-6l3-12zm3 18v6h-6v-6h6zm9-6h-6v6h6v-6zm-12 0h-6v6h6v-6zm-9 0h6v6h-6v-6z"/></svg>`)
+	case "/icon2":
+		fmt.Fprintf(w, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M2 0v24h20v-24h-20zm16 2v20h-12v-20h12zm-3 8h-6v2h6v-2z"/></svg>`)
+	default:
+		// Default response for any other route
+		w.WriteHeader(http.StatusNotFound) // Respond with a 404 for unknown routes
+		fmt.Fprintf(w, "Icon not found!")
+	}
 }
 
 type Icon struct {
