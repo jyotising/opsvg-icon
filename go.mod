@@ -1,6 +1,6 @@
 module opsvg
 
-go 1.23.2
+go 1.23.0
 
 require (
     // your dependencies here
