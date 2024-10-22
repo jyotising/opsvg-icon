@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Icon Library</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>SVG Icon Library</h1>
+
+    <!-- Icon Search -->
+    <form method="GET" action="/">
+        <input type="text" name="search" placeholder="Search icons...">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Stroke Color Picker -->
+    <label for="strokeColorPicker">Change Icon Stroke Color:</label>
+    <input type="color" id="strokeColorPicker" value="#000000">
+
+    <div class="icon-gallery">
+    {{ if .Icons }}
+    {{ range .Icons }}
+    <div class="icon-item">
+        <!-- Icon with stroke color change -->
+        <img src="/icons/{{ .Filename }}" alt="{{ .Name }}" class="svg-icon" width="{{ .Size }}" height="{{ .Size }}">
+        <p>{{ .Name }}</p>
+
+        <!-- Download Button -->
+        <a href="#" class="download-btn" onclick="downloadIcon('{{ .Filename }}')">Download</a>
+
+        <!-- Copy Button -->
+        <button onclick="copyToClipboard('{{ .Filename }}')" class="copy-btn">Copy SVG</button>
+    </div>
+    {{ end }}
+    {{ else }}
+    <p>No icons found matching your search.</p>
+    {{ end }}
+    </div>
+
+
+
+    <script src="/static/scripts.js"></script>
+
+</body>
+</html>
