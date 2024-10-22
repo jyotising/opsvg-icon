@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -8,6 +9,15 @@ import (
 	"path/filepath"
 	"strings"
 )
+
+// Handler is the function Vercel uses to handle HTTP requests
+func Handler(w http.ResponseWriter, r *http.Request) {
+	// Set the content type to HTML, SVG, or any other type as needed
+	w.Header().Set("Content-Type", "text/html")
+
+	// This is a basic response to test that your handler is working
+	fmt.Fprintf(w, "<h1>Welcome to the OpSVG Icon Library!</h1>")
+}
 
 type Icon struct {
 	Filename string
