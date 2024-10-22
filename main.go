@@ -1,4 +1,3 @@
-package main
 package handler
 
 import (
@@ -26,7 +25,7 @@ type Icon struct {
 	Size     int
 }
 
-func main() {
+func handler() {
 	// Serve static files from /static and /icons folders
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/icons/", http.StripPrefix("/icons/", http.FileServer(http.Dir("icons"))))
