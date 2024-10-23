@@ -1,17 +1,17 @@
-package handler
+package main
 
 import (
 	"fmt"
 	"net/http"
 )
 
-// Handler function for the HTTP request
+// The HTTP handler for this function
 func Handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
 
-// Entry point for Vercel
+// The entry point for Vercel
 func main() {
-	http.HandleFunc("/", Handler)
-	http.ListenAndServe(":8080", nil) // This line is ignored by Vercel
+	http.HandleFunc("/", Handler) // This is required for local development; Vercel uses individual handlers
+	// No need to run ListenAndServe; Vercel handles this
 }
