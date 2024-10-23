@@ -1,79 +1,85 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 )
 
+// Icon represents an SVG icon with its filename and name
 type Icon struct {
 	Filename string
 	Name     string
 	Size     int
 }
 
-func main() {
-	// Serve static files from /static and /icons folders
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-	http.Handle("/icons/", http.StripPrefix("/icons/", http.FileServer(http.Dir("icons"))))
-
-	// Handle requests for the home page
-	http.HandleFunc("/", homeHandler)
-
-	log.Println("Server started at :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
-}
-
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	// Parse the template file
-	tmpl := template.Must(template.ParseFiles("templates/index.html"))
-
-	// Get the search query from the URL (e.g., ?search=icon-name)
-	searchQuery := r.URL.Query().Get("search")
-
-	// Load all icons from the /icons folder
-	icons := loadIcons()
-
-	// If there's a search query, filter the icons
-	if searchQuery != "" {
-		icons = searchIcons(icons, searchQuery)
-	}
-
-	// Render the template with the icons and the search query
-	tmpl.Execute(w, struct {
-		Icons      []Icon
-		SearchTerm string
-	}{
-		Icons:      icons,
-		SearchTerm: searchQuery, // Pass the search term to the template
-	})
-}
-
-func loadIcons() []Icon {
+// LoadIcons loads SVG files from the icons directory
+func LoadIcons() ([]Icon, error) {
 	var icons []Icon
-	filepath.Walk("icons", func(path string, info os.FileInfo, err error) error {
-		if filepath.Ext(path) == ".svg" {
+	iconsDir := "./icons"
+
+	err := filepath.Walk(iconsDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		// Only consider .svg files
+		if !info.IsDir() && filepath.Ext(path) == ".svg" {
 			icons = append(icons, Icon{
-				Filename: filepath.Base(path),
-				Name:     strings.TrimSuffix(info.Name(), filepath.Ext(info.Name())),
-				Size:     48, // Default size
+				Filename: info.Name(),
+				Name:     info.Name(),
+				Size:     100, // Set a default size (you can adjust this)
 			})
 		}
 		return nil
 	})
-	return icons
+
+	return icons, err
 }
 
-func searchIcons(icons []Icon, query string) []Icon {
-	var filteredIcons []Icon
-	query = strings.ToLower(query) // Make search case-insensitive
-	for _, icon := range icons {
-		if strings.Contains(strings.ToLower(icon.Name), query) {
-			filteredIcons = append(filteredIcons, icon)
-		}
+// ServeIcons serves the HTML with icons
+func ServeIcons(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("templates/index.html")
+	if err != nil {
+		http.Error(w, "Error loading template", http.StatusInternalServerError)
+		return
 	}
-	return filteredIcons
+
+	icons, err := LoadIcons()
+	if err != nil {
+		http.Error(w, "Error loading icons", http.StatusInternalServerError)
+		return
+	}
+
+	// Pass icons to the template
+	tmpl.Execute(w, struct {
+		Icons []Icon
+	}{
+		Icons: icons,
+	})
+}
+
+func main() {
+	// Serve static files (CSS, JS)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
+	// Serve icon files (SVG)
+	http.Handle("/icons/", http.StripPrefix("/icons/", http.FileServer(http.Dir("icons"))))
+
+	// Serve HTML template
+	http.HandleFunc("/", ServeIcons)
+
+	// Get the port from environment variable or use 8080 as default
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	fmt.Printf("Starting server on port %s...\n", port)
+
+	// Start the HTTP server
+	err := http.ListenAndServe(":"+port, nil)
+	if err != nil {
+		fmt.Println("Error starting server:", err)
+	}
 }
