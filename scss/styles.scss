@@ -1,0 +1,45 @@
+// scss/styles.scss
+
+// Define color variables for reuse
+$primary-color: #3498db;
+$hover-color: #0056b3;
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.icon-gallery {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.icon-item {
+    margin: 10px;
+    text-align: center;
+}
+
+#colorPicker {
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.download-btn, .copy-btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: $primary-color; // Use the primary color variable
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.download-btn:hover, .copy-btn:hover {
+    background-color: $hover-color; // Use the hover color variable
+}
+
+.copy-btn {
+    margin-left: 10px;
+}

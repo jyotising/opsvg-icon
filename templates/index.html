@@ -7,17 +7,18 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>SVG Icon Library</h1>
 
     <!-- Icon Search -->
     <form method="GET" action="/">
         <input type="text" name="search" placeholder="Search icons...">
         <button type="submit">Search</button>
     </form>
+    <!-- Icon Search End -->
 
     <!-- Stroke Color Picker -->
     <label for="strokeColorPicker">Change Icon Stroke Color:</label>
     <input type="color" id="strokeColorPicker" value="#000000">
+    <!-- Stroke Color Picker End -->
 
     <div class="icon-gallery">
     {{ if .Icons }}
@@ -39,9 +40,7 @@
     {{ end }}
     </div>
 
-
-
-    <script src="/static/scripts.js"></script>
+    <script type="module" src="static/scripts/main.js"></script>
 
 </body>
 </html>
