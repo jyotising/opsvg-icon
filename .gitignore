@@ -11,7 +11,6 @@
 /node_modules/
 # If using Go modules, ignore the Go mod cache
 /go.sum
-/go.mod
 
 # Sass output directory
 /static/styles.css
