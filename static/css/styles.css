@@ -1,41 +1,154 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Arial", sans-serif;
+  color: #555;
+  background-color: #f9f9f9;
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #333;
+}
+header h1 {
+  font-size: 2rem;
+  color: #333;
+}
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+header nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+header nav ul li a:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+form input[type=text] {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+form button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+form button:hover {
+  background-color: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+}
+
+label[for=strokeColorPicker],
+input[type=color] {
+  display: inline-block;
+  margin-right: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .icon-gallery {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.icon-item {
-  margin: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
   text-align: center;
 }
-
-#colorPicker {
-  margin-bottom: 20px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.icon-gallery .icon-item {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-
-.download-btn, .copy-btn {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #3498db;
+.icon-gallery .icon-item img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s;
+  margin-bottom: 0.5rem;
+}
+.icon-gallery .icon-item img:hover {
+  transform: scale(1.05);
+}
+.icon-gallery .icon-item p {
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.icon-gallery .icon-item .download-btn,
+.icon-gallery .icon-item .copy-btn {
+  display: inline-block;
+  margin: 0.25rem 0.5rem;
+  padding: 0.5rem 1rem;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background 0.3s;
+  font-size: 0.9rem;
+}
+.icon-gallery .icon-item .download-btn.download-btn,
+.icon-gallery .icon-item .copy-btn.download-btn {
+  background-color: #4CAF50;
+}
+.icon-gallery .icon-item .download-btn.download-btn:hover,
+.icon-gallery .icon-item .copy-btn.download-btn:hover {
+  background-color: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+}
+.icon-gallery .icon-item .download-btn.copy-btn,
+.icon-gallery .icon-item .copy-btn.copy-btn {
+  background-color: #333;
+}
+.icon-gallery .icon-item .download-btn.copy-btn:hover,
+.icon-gallery .icon-item .copy-btn.copy-btn:hover {
+  background-color: rgb(76.5, 76.5, 76.5);
+}
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 2px solid #333;
+}
+footer p {
+  font-size: 0.9rem;
+  color: #555;
+}
+footer p a {
+  color: #4CAF50;
   text-decoration: none;
+  font-weight: bold;
+  margin: 0 0.5rem;
 }
-
-.download-btn:hover, .copy-btn:hover {
-  background-color: #0056b3;
-}
-
-.copy-btn {
-  margin-left: 10px;
+footer p a:hover {
+  text-decoration: underline;
 }
 
 /*# sourceMappingURL=styles.css.map */

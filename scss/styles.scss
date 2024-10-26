@@ -1,45 +1,185 @@
-// scss/styles.scss
+// Variables for Consistency
+$primary-color: #333;
+$accent-color: #4CAF50;
+$text-color: #555;
+$bg-color: #f9f9f9;
+$font-family: 'Arial', sans-serif;
+$button-padding: 0.5rem 1rem;
 
-// Define color variables for reuse
-$primary-color: #3498db;
-$hover-color: #0056b3;
+// Base Styles
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: $font-family;
+    color: $text-color;
+    background-color: $bg-color;
+    line-height: 1.6;
+    padding: 2rem;
 }
 
-.icon-gallery {
+// Header Styles
+header {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid $primary-color;
+
+    h1 {
+        font-size: 2rem;
+        color: $primary-color;
+    }
+
+    nav {
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+
+            li {
+                a {
+                    text-decoration: none;
+                    color: $primary-color;
+                    font-weight: bold;
+                    padding: 0.5rem 1rem;
+                    border-radius: 4px;
+                    transition: background 0.3s;
+
+                    &:hover {
+                        background-color: $accent-color;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
 }
 
-.icon-item {
-    margin: 10px;
+// Icon Search
+form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    input[type="text"] {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid $primary-color;
+        border-radius: 4px;
+    }
+
+    button {
+        background-color: $accent-color;
+        color: white;
+        border: none;
+        padding: $button-padding;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background 0.3s;
+
+        &:hover {
+            background-color: adjust-color($accent-color, $lightness: -10%);
+        }
+    }
+}
+
+// Color Picker
+label[for="strokeColorPicker"],
+input[type="color"] {
+    display: inline-block;
+    margin-right: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+// Icon Gallery
+.icon-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
     text-align: center;
+
+    .icon-item {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+        img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s;
+            margin-bottom: 0.5rem;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+
+        p {
+            font-size: 1rem;
+            color: $primary-color;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .download-btn,
+        .copy-btn {
+            display: inline-block;
+            margin: 0.25rem 0.5rem;
+            padding: $button-padding;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.9rem;
+
+            &.download-btn {
+                background-color: $accent-color;
+
+                &:hover {
+                    background-color: adjust-color($accent-color, $lightness: -10%);
+                }
+            }
+
+            &.copy-btn {
+                background-color: $primary-color;
+
+                &:hover {
+                    background-color: adjust-color($primary-color, $lightness: 10%);
+                }
+            }
+        }
+    }
 }
 
-#colorPicker {
-    margin-bottom: 20px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+// Footer Styles
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-top: 2px solid $primary-color;
 
-.download-btn, .copy-btn {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background-color: $primary-color; // Use the primary color variable
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-}
+    p {
+        font-size: 0.9rem;
+        color: $text-color;
 
-.download-btn:hover, .copy-btn:hover {
-    background-color: $hover-color; // Use the hover color variable
-}
+        a {
+            color: $accent-color;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 0.5rem;
 
-.copy-btn {
-    margin-left: 10px;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 }
