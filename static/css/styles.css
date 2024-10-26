@@ -88,7 +88,6 @@ input[type=color] {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 .icon-gallery .icon-item img {
-  width: 100%;
   height: auto;
   transition: transform 0.3s;
   margin-bottom: 0.5rem;
