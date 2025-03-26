@@ -1,0 +1,19 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_2_19721)">
+<path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
+<path d="M22 2H14V6H22V2Z" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M22 6V17C22 17.555 21.555 18 21 18H4C2.895 18 2 17.105 2 16V13C2 10.79 3.79 9 6 9H14V6H22Z" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 12V9" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.5 12V9" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11.5 9H6" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.5 22C5.60455 22 6.5 21.1046 6.5 20C6.5 18.8954 5.60455 18 4.5 18C3.39543 18 2.5 18.8954 2.5 20C2.5 21.1046 3.39543 22 4.5 22Z" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.66504 22C10.7696 22 11.665 21.1046 11.665 20C11.665 18.8954 10.7696 18 9.66504 18C8.56044 18 7.66504 18.8954 7.66504 20C7.66504 21.1046 8.56044 22 9.66504 22Z" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.835 22C15.9396 22 16.835 21.1046 16.835 20C16.835 18.8954 15.9396 18 14.835 18C13.7304 18 12.835 18.8954 12.835 20C12.835 21.1046 13.7304 22 14.835 22Z" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 22C21.1046 22 22 21.1046 22 20C22 18.8954 21.1046 18 20 18C18.8954 18 18 18.8954 18 20C18 21.1046 18.8954 22 20 22Z" stroke="#333333" stroke-width="2" stroke-miterlimit="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_2_19721">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>

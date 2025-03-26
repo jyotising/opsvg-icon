@@ -5,60 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVG Icon Library</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-
-     <!-- Header Section -->
+    <!-- Header Section -->
     <header>
-        <h1>SVG Icon Library</h1>
-        <nav>
-            <ul>
-                <li><a href="#icons">Icons</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="container">
+            <div class="header-left">
+                <h1 class="logo">
+                    <span class="logo-text">Op</span>
+                    <span class="logo-highlight">svg</span>
+                </h1>
+            </div>
+            <div class="header-right">
+                <div class="action-buttons">
+                    <a href="https://github.com/yourusername/project" class="github-btn" target="_blank">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"></path>
+                        </svg>
+                        GitHub
+                    </a>
+                    <a href="#" class="donate-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        Donate
+                    </a>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <!-- Icon Search -->
-    <form method="GET" action="/">
-        <input type="text" name="search" placeholder="Search icons...">
-        <button type="submit">Search</button>
-    </form>
-    <!-- Icon Search End -->
+    <main class="main-content">
+        <!-- Search section -->
+        <section class="search-section">
+            <div class="container">
+                <div class="search-controls">
+                    <form method="GET" action="/" class="search-form" id="searchForm">
+                        <div class="search-wrapper">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input 
+                                type="text" 
+                                name="search" 
+                                id="searchInput"
+                                placeholder="Search 1,418 icons..." 
+                                autocomplete="off"
+                            >
+                        </div>
+                    </form>
+                    <div class="color-picker-container">
+                        <span class="color-label">Color</span>
+                        <input type="color" id="strokeColorPicker" value="#000000">
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Stroke Color Picker -->
-    <label for="strokeColorPicker">Change Icon Stroke Color:</label>
-    <input type="color" id="strokeColorPicker" value="#000000">
-    <!-- Stroke Color Picker End -->
-
-    <div class="icon-gallery">
-    {{ if .Icons }}
-    {{ range .Icons }}
-    <div class="icon-item">
-        <!-- Icon with stroke color change -->
-        <img src="/icons/{{ .Filename }}" alt="{{ .Name }}" class="svg-icon" width="{{ .Size }}" height="{{ .Size }}">
-        <p>{{ .Name }}</p>
-
-        <!-- Download Button -->
-        <a href="#" class="download-btn" onclick="downloadIcon('{{ .Filename }}')">Download</a>
-
-        <!-- Copy Button -->
-        <button onclick="copyToClipboard('{{ .Filename }}')" class="copy-btn">Copy SVG</button>
-    </div>
-    {{ end }}
-    {{ else }}
-    <p>No icons found matching your search.</p>
-    {{ end }}
-    </div>
+        <!-- Icon Gallery -->
+        <section class="gallery-section">
+            <div class="container">
+                <div class="icon-gallery">
+                    {{ if .Icons }}
+                    {{ range .Icons }}
+                    <div class="icon-item" onclick="showIconModal('{{ .Filename }}', '{{ .Name }}')">
+                        <div class="icon-preview">
+                            <img src="/icons/{{ .Filename }}" alt="{{ .Name }}" class="svg-icon" width="24" height="24" loading="lazy">
+                        </div>
+                        <p class="icon-name">{{ .Name }}</p>
+                    </div>
+                    {{ end }}
+                    {{ else }}
+                    <p class="no-results">No icons found matching your search.</p>
+                    {{ end }}
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer Section -->
     <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
-        <p><a href="#about">About Us</a> | <a href="#contact">Contact</a></p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">Op<span class="logo-highlight">svg</span></span>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/yourusername/project" target="_blank">GitHub</a>
+                    <span class="separator">•</span>
+                    <a href="#docs">Docs</a>
+                    <span class="separator">•</span>
+                    <a href="#about">About</a>
+                </div>
+            </div>
+        </div>
     </footer>
 
-    <script type="module" src="static/scripts/main.js"></script>
+    <div class="modal" id="iconModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"></h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-preview">
+                <img class="modal-icon" alt="">
+            </div>
+            <div class="icon-actions">
+                <button class="download-btn" id="modalDownloadBtn">Download</button>
+                <button class="copy-btn" id="modalCopyBtn">Copy SVG</button>
+            </div>
+        </div>
+    </div>
 
+    <script type="module" src="static/scripts/main.js"></script>
+    <script type="module" src="static/scripts/search.js"></script>
+    <script>
+    function showIconModal(filename, name) {
+        const modal = document.getElementById('iconModal');
+        if (!modal) {
+            console.error('Modal element not found');
+            return;
+        }
+
+        const modalTitle = modal.querySelector('.modal-title');
+        const modalIcon = modal.querySelector('.modal-icon');
+        const downloadBtn = document.getElementById('modalDownloadBtn');
+        const copyBtn = document.getElementById('modalCopyBtn');
+        
+        modalTitle.textContent = name;
+        modalIcon.src = `/icons/${filename}`;
+        modalIcon.alt = name;
+        
+        downloadBtn.onclick = (e) => {
+            e.preventDefault();
+            downloadIcon(filename);
+        };
+        
+        copyBtn.onclick = (e) => {
+            e.preventDefault();
+            copyToClipboard(filename);
+        };
+        
+        modal.classList.add('active');
+        
+        // Close modal when clicking overlay or close button
+        const closeModal = () => modal.classList.remove('active');
+        modal.querySelector('.modal-overlay').onclick = closeModal;
+        modal.querySelector('.modal-close').onclick = closeModal;
+    }
+
+    // Close modal on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('iconModal');
+            if (modal) modal.classList.remove('active');
+        }
+    });
+    </script>
 </body>
 </html>
