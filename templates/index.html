@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVG Icon Library</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/pagination.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -81,6 +82,69 @@
                     <p class="no-results">No icons found matching your search.</p>
                     {{ end }}
                 </div>
+
+                <!-- Pagination Controls -->
+                {{ if gt .TotalPages 1 }}
+                <div class="pagination">
+                    {{ if gt .CurrentPage 1 }}
+                    <a href="?page={{ sub .CurrentPage 1 }}{{ if .SearchTerm }}&search={{ .SearchTerm }}{{ end }}" class="pagination-btn prev">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </a>
+                    {{ else }}
+                    <span class="pagination-btn prev disabled">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </span>
+                    {{ end }}
+
+                    <div class="page-numbers">
+                        {{ if gt .CurrentPage 3 }}
+                            <a href="?page=1{{ if .SearchTerm }}&search={{ .SearchTerm }}{{ end }}" class="page-number">1</a>
+                            {{ if gt .CurrentPage 4 }}
+                                <span class="page-number ellipsis">...</span>
+                            {{ end }}
+                        {{ end }}
+
+                        {{ range $i := iterate 1 .TotalPages }}
+                            {{ if and (ge $i (sub $.CurrentPage 2)) (le $i (add $.CurrentPage 2)) }}
+                                {{ if eq $i $.CurrentPage }}
+                                <span class="page-number active">{{ $i }}</span>
+                                {{ else }}
+                                <a href="?page={{ $i }}{{ if $.SearchTerm }}&search={{ $.SearchTerm }}{{ end }}" class="page-number">{{ $i }}</a>
+                                {{ end }}
+                            {{ end }}
+                        {{ end }}
+
+                        {{ if lt .CurrentPage (sub .TotalPages 2) }}
+                            {{ if lt .CurrentPage (sub .TotalPages 3) }}
+                                <span class="page-number ellipsis">...</span>
+                            {{ end }}
+                            <a href="?page={{ .TotalPages }}{{ if .SearchTerm }}&search={{ .SearchTerm }}{{ end }}" class="page-number">{{ .TotalPages }}</a>
+                        {{ end }}
+                    </div>
+
+                    {{ if lt .CurrentPage .TotalPages }}
+                    <a href="?page={{ add .CurrentPage 1 }}{{ if .SearchTerm }}&search={{ .SearchTerm }}{{ end }}" class="pagination-btn next">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </a>
+                    {{ else }}
+                    <span class="pagination-btn next disabled">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </span>
+                    {{ end }}
+
+                    <div class="pagination-info">
+                        Page {{ .CurrentPage }} of {{ .TotalPages }}
+                    </div>
+                </div>
+                {{ end }}
             </div>
         </section>
     </main>

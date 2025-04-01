@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -13,6 +14,31 @@ type Icon struct {
 	Filename string
 	Name     string
 	Size     int
+}
+
+type PageData struct {
+	Icons       []Icon
+	SearchTerm  string
+	CurrentPage int
+	TotalPages  int
+	PageSize    int
+}
+
+// Template functions
+var templateFuncs = template.FuncMap{
+	"add": func(a, b int) int {
+		return a + b
+	},
+	"sub": func(a, b int) int {
+		return a - b
+	},
+	"iterate": func(start, end int) []int {
+		var result []int
+		for i := start; i <= end; i++ {
+			result = append(result, i)
+		}
+		return result
+	},
 }
 
 func main() {
@@ -34,8 +60,8 @@ func main() {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	// Parse the template file
-	tmpl, err := template.ParseFiles("templates/index.html")
+	// Parse the template file with custom functions
+	tmpl, err := template.New("index.html").Funcs(templateFuncs).ParseFiles("templates/index.html")
 	if err != nil {
 		log.Printf("Error parsing template: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -44,6 +70,16 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Get the search query from the URL (e.g., ?search=icon-name)
 	searchQuery := r.URL.Query().Get("search")
+
+	// Get the page number from the URL, default to 1
+	pageStr := r.URL.Query().Get("page")
+	page, err := strconv.Atoi(pageStr)
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	// Set the number of icons per page
+	pageSize := 105
 
 	// Load all icons from the /icons folder
 	icons, err := loadIcons()
@@ -58,13 +94,34 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		icons = searchIcons(icons, searchQuery)
 	}
 
-	// Render the template with the icons and the search query
-	err = tmpl.Execute(w, struct {
-		Icons      []Icon
-		SearchTerm string
-	}{
-		Icons:      icons,
-		SearchTerm: searchQuery,
+	// Calculate total pages
+	totalPages := (len(icons) + pageSize - 1) / pageSize
+	if totalPages < 1 {
+		totalPages = 1
+	}
+
+	// Ensure page is not greater than total pages
+	if page > totalPages {
+		page = totalPages
+	}
+
+	// Calculate start and end indices for the current page
+	startIndex := (page - 1) * pageSize
+	endIndex := startIndex + pageSize
+	if endIndex > len(icons) {
+		endIndex = len(icons)
+	}
+
+	// Get icons for the current page
+	pageIcons := icons[startIndex:endIndex]
+
+	// Render the template with the icons and pagination data
+	err = tmpl.Execute(w, PageData{
+		Icons:       pageIcons,
+		SearchTerm:  searchQuery,
+		CurrentPage: page,
+		TotalPages:  totalPages,
+		PageSize:    pageSize,
 	})
 	if err != nil {
 		log.Printf("Error executing template: %v", err)
