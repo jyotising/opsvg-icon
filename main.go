@@ -35,13 +35,23 @@ func main() {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse the template file
-	tmpl := template.Must(template.ParseFiles("templates/index.html"))
+	tmpl, err := template.ParseFiles("templates/index.html")
+	if err != nil {
+		log.Printf("Error parsing template: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
 	// Get the search query from the URL (e.g., ?search=icon-name)
 	searchQuery := r.URL.Query().Get("search")
 
 	// Load all icons from the /icons folder
-	icons := loadIcons()
+	icons, err := loadIcons()
+	if err != nil {
+		log.Printf("Error loading icons: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
 	// If there's a search query, filter the icons
 	if searchQuery != "" {
@@ -49,18 +59,26 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Render the template with the icons and the search query
-	tmpl.Execute(w, struct {
+	err = tmpl.Execute(w, struct {
 		Icons      []Icon
 		SearchTerm string
 	}{
 		Icons:      icons,
-		SearchTerm: searchQuery, // Pass the search term to the template
+		SearchTerm: searchQuery,
 	})
+	if err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }
 
-func loadIcons() []Icon {
+func loadIcons() ([]Icon, error) {
 	var icons []Icon
-	filepath.Walk("icons", func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk("icons", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
 		if filepath.Ext(path) == ".svg" {
 			icons = append(icons, Icon{
 				Filename: filepath.Base(path),
@@ -70,7 +88,10 @@ func loadIcons() []Icon {
 		}
 		return nil
 	})
-	return icons
+	if err != nil {
+		return nil, err
+	}
+	return icons, nil
 }
 
 func searchIcons(icons []Icon, query string) []Icon {
