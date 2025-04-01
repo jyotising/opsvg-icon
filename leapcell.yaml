@@ -1,0 +1,19 @@
+name: opsvg-icon
+version: 1.0.0
+description: SVG Icon Viewer Application
+
+services:
+  - name: web
+    port: 8080
+    type: web
+    build:
+      dockerfile: Dockerfile
+    env:
+      - name: PORT
+        value: "8080"
+    healthcheck:
+      path: /
+      port: 8080
+      interval: 30s
+      timeout: 10s
+      retries: 3 

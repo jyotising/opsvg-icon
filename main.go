@@ -16,6 +16,12 @@ type Icon struct {
 }
 
 func main() {
+	// Get port from environment variable or use default
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
 	// Serve static files from /static and /icons folders
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/icons/", http.StripPrefix("/icons/", http.FileServer(http.Dir("icons"))))
@@ -23,8 +29,8 @@ func main() {
 	// Handle requests for the home page
 	http.HandleFunc("/", homeHandler)
 
-	log.Println("Server started at :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Printf("Server started at :%s", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
