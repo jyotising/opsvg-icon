@@ -9,8 +9,10 @@ FROM alpine:latest
 # Create a non-root user
 RUN adduser -D -u 1000 appuser
 
-# Create app directory and set permissions
-RUN mkdir -p /app && chown -R appuser:appuser /app
+# Create app directory with full permissions
+RUN mkdir -p /app && \
+    chmod 777 /app
+
 WORKDIR /app
 
 # Copy files with proper ownership
