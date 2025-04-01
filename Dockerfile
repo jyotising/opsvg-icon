@@ -10,14 +10,17 @@ FROM alpine:latest
 RUN adduser -D -u 1000 appuser
 
 # Create app directory and set permissions
+RUN mkdir -p /app && chown -R appuser:appuser /app
 WORKDIR /app
-COPY --from=builder /build/opsvg .
-COPY --from=builder /build/templates ./templates
-COPY --from=builder /build/static ./static
-COPY --from=builder /build/icons ./icons
 
-# Set proper permissions
-RUN chown -R appuser:appuser /app
+# Copy files with proper ownership
+COPY --from=builder --chown=appuser:appuser /build/opsvg .
+COPY --from=builder --chown=appuser:appuser /build/templates ./templates
+COPY --from=builder --chown=appuser:appuser /build/static ./static
+COPY --from=builder --chown=appuser:appuser /build/icons ./icons
+
+# Ensure all files are readable and executable
+RUN chmod -R 755 /app
 
 # Switch to non-root user
 USER appuser
